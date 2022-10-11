@@ -67,28 +67,54 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Column(
           children: [
             TextFieldWidget(
+              inputOnlyNumer: false,
               label: 'Product name',
               hintText: 'Enter product',
               controller: productController,
               readOnly: false,
+              onChanged: (value) {},
             ),
             TextFieldWidget(
+              inputOnlyNumer: true,
               readOnly: false,
               label: 'Product Qty',
               hintText: 'Enter Qty',
               controller: qtyController,
+              onChanged: (value) {
+                if (priceController.text.isNotEmpty || value != null) {
+                  totalController.text =
+                      (double.parse(priceController.text) * int.parse(value))
+                          .toString();
+                  print(totalController.text);
+                } else {
+                  totalController.text = '0.0\$';
+                }
+              },
             ),
             TextFieldWidget(
+              inputOnlyNumer: true,
               readOnly: false,
               label: 'Product Price',
               hintText: 'Enter Price',
               controller: priceController,
+              onChanged: (value) {
+                if (qtyController.text.isNotEmpty || value != null) {
+                  totalController.text =
+                      (int.parse(qtyController.text) * double.parse(value))
+                          .toString();
+                  print(totalController.text);
+                } else {
+                  totalController.text = '0.0\$';
+                }
+              },
             ),
             TextFieldWidget(
+              inputOnlyNumer: false,
               readOnly: false,
               label: 'Product Total\$',
               hintText: '0.0\$',
               controller: totalController,
+              onChanged: (value) {},
             ),
           ],
         ),
@@ -104,11 +130,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       qtyController.text.isNotEmpty &&
                       totalController.text.isNotEmpty) {
                     getxController.addProduct(Product(
+                        code: DateTime.now().microsecondsSinceEpoch,
                         name: productController.text,
                         qty: int.parse(qtyController.text),
                         price: double.parse(priceController.text),
                         total: double.parse(totalController.text)));
                     clearText();
+                    //  print(DateTime.now().microsecondsSinceEpoch);
                   } else {
                     showDialog(
                       context: context,
