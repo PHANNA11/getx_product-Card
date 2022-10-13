@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,14 +55,30 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           centerTitle: true,
           actions: [
-            IconButton(
-                onPressed: () async {
-                  Get.to(() => ListProductScreen());
-                },
-                icon: const Icon(Icons.list)),
+            InkWell(
+              onTap: () {
+                Get.to(() => ListProductScreen());
+              },
+              child: Badge(
+                  position: BadgePosition.topEnd(top: 0, end: -3),
+                  animationDuration: const Duration(milliseconds: 300),
+                  animationType: BadgeAnimationType.slide,
+                  badgeContent: GetBuilder<ProductController>(
+                    builder: (controller) {
+                      return Text(
+                        (controller.list.length).toString(),
+                        style: const TextStyle(color: Colors.white),
+                      );
+                    },
+                  ),
+                  child: const Icon(
+                    Icons.shopping_cart,
+                    size: 30,
+                  )),
+            ),
             const SizedBox(
               width: 40,
-            )
+            ),
           ],
         ),
         body: Column(

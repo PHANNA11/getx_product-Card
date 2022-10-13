@@ -47,8 +47,8 @@ class _EditWidgetDialogState extends State<EditWidgetDialog> {
     return AlertDialog(
       title: const Text('Edit'),
       content: Container(
-        height: 400,
-        width: double.infinity,
+        height: 500,
+        width: 400,
         child: Column(
           children: [
             TextFieldWidget(
@@ -105,13 +105,29 @@ class _EditWidgetDialogState extends State<EditWidgetDialog> {
         ),
       ),
       actions: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('cancel'),
+        Container(
+          height: 40,
+          width: 120,
+          decoration: BoxDecoration(
+              color: Colors.red, borderRadius: BorderRadius.circular(5)),
+          child: MaterialButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Center(
+              child: Text(
+                'cancel',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
         ),
-        ElevatedButton(
+        Container(
+          height: 40,
+          width: 120,
+          decoration: BoxDecoration(
+              color: Colors.blue, borderRadius: BorderRadius.circular(5)),
+          child: MaterialButton(
             onPressed: () async {
               if (priceController.text.isNotEmpty &&
                   productController.text.isNotEmpty &&
@@ -124,8 +140,9 @@ class _EditWidgetDialogState extends State<EditWidgetDialog> {
                     price: double.parse(priceController.text),
                     total: double.parse(totalController.text)));
                 clearText();
-                Navigator.pop(context);
+                Get.back();
               } else {
+                Get.back();
                 showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
@@ -134,7 +151,7 @@ class _EditWidgetDialogState extends State<EditWidgetDialog> {
                     actions: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Get.back();
                           },
                           child: const Text('OK'))
                     ],
@@ -142,7 +159,14 @@ class _EditWidgetDialogState extends State<EditWidgetDialog> {
                 );
               }
             },
-            child: const Text('save'))
+            child: const Center(
+              child: Text(
+                'save',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
